@@ -1,7 +1,12 @@
 class V1::UsersController < ApplicationController
   def index
-      users = User.all
-      render json: users
+    # params[:uid]は送信されてきたFirebaseのuid
+    users = if params[:uid]
+      User.find_by(uid: params[:uid])
+    else
+      User.all
+    end
+    render json: users
   end
 
   def create
